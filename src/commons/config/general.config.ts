@@ -8,12 +8,4 @@ export default registerAs('general', () => ({
 
   SECRET_JWT: process.env.SECRET_JWT,
   EXPIRES_JWT: process.env.EXPIRES_JWT || '2d',
-
-  SESSION_ID_LENGTH: process.env.SESSION_ID_LENGTH || '10',
-  SESSION_ID_PREFIX: process.env.SESSION_ID_PREFIX || 'SE',
-
-  SLACK_URL_CONTACT_NOTIFICACTION: process.env.SLACK_URL_CONTACT_NOTIFICACTION,
-  URL_CONTACT_REQUEST_MANAGEMENT: process.env.SLACK_URL_CONTACT_NOTIFICACTION,
-
-  URL_API_ANALYTIC: process.env.URL_API_ANALYTIC,
 }));

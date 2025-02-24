@@ -10,17 +10,24 @@ import {
 } from 'mongoose';
 import { IuserDriver } from '../user.driver';
 import { GeneralUtils } from 'src/commons/util/general.util';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserDriver implements IuserDriver {
   constructor(
     @InjectModel(User.name)
     private productModel: Model<User>,
+    private config: ConfigService,
   ) {}
 
   async register(data: Partial<User>) {
     data.userId = GeneralUtils.generateId(12, 'USR');
-    return await this.productModel.create(data);
+    data.password = await GeneralUtils.encryptPassword(
+      data.password,
+      this.config.get<string>('general.PEPPER_PASSWORD'),
+    );
+    const userDataRegister = new this.productModel(data);
+    return await userDataRegister.save({});
   }
 
   async getTotal(filter: FilterQuery<User>): Promise<number> {
