@@ -1,4 +1,4 @@
-import { EcurrencyEvent } from '../../../enum/currency.event';
+import { EcurrencyEvent } from '../../../enum/conversion-currency.event';
 
 export interface IeventBase<T = any> {
   readonly userId: string;

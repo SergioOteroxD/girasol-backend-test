@@ -4,6 +4,7 @@ import { UserController } from './api/user.controller';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionManager } from './lib/exceptions-manager.filter';
 import { RequestHttpInterceptor } from './lib/request-http.interceptor';
+import { CurrencyController } from './api/currency.controller';
 
 @Module({
   imports: [CoreModule],
@@ -17,6 +18,6 @@ import { RequestHttpInterceptor } from './lib/request-http.interceptor';
       useClass: RequestHttpInterceptor,
     },
   ],
-  controllers: [UserController],
+  controllers: [UserController, CurrencyController],
 })
 export class AdaptersModule {}
