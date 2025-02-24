@@ -6,8 +6,9 @@ import {
   UpdateQuery,
   ProjectionType,
   SortOrder,
+  PipelineStage,
+  AggregateOptions,
 } from 'mongoose';
-import { ConfigService } from '@nestjs/config';
 import { HistoryConsultCurrency } from '../model/history-consult-currency.model';
 import { IhistoryConsultCurrencyDriver } from '../history-consult-currency';
 
@@ -18,7 +19,6 @@ export class HistoryConsultCurrencyDriver
   constructor(
     @InjectModel(HistoryConsultCurrency.name)
     private productModel: Model<HistoryConsultCurrency>,
-    private config: ConfigService,
   ) {}
 
   async register(data: Partial<HistoryConsultCurrency>) {
@@ -28,6 +28,13 @@ export class HistoryConsultCurrencyDriver
 
   async getTotal(filter: FilterQuery<HistoryConsultCurrency>): Promise<number> {
     return await this.productModel.find(filter).countDocuments().exec();
+  }
+
+  async aggregate(
+    pipeline: PipelineStage[],
+    options?: AggregateOptions,
+  ): Promise<any> {
+    return await this.productModel.aggregate(pipeline, options);
   }
 
   async getAll(

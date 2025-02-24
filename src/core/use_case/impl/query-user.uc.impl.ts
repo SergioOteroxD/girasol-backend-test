@@ -34,11 +34,9 @@ export class QueryUserUC implements IqueryUserUC {
     const filter: FilterQuery<User> = {};
     if (_filter.email) filter['email'] = _filter.email;
     if (_filter.name) filter['name'] = _filter.name;
-    if (_filter.userType) filter['.userType'] = _filter.userType;
+    if (_filter.userType) filter['userType'] = _filter.userType;
 
-    const total: number = await this.clientDriver.getTotal({
-      where: filter,
-    });
+    const total: number = await this.clientDriver.getTotal(filter);
 
     if (total == 0) return new ResponseBase(RESPONSE_CODE.NOT_FOUND);
 

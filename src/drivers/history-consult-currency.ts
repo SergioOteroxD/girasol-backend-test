@@ -1,4 +1,11 @@
-import { FilterQuery, ProjectionType, SortOrder, UpdateQuery } from 'mongoose';
+import {
+  AggregateOptions,
+  FilterQuery,
+  PipelineStage,
+  ProjectionType,
+  SortOrder,
+  UpdateQuery,
+} from 'mongoose';
 import { HistoryConsultCurrency } from './model/history-consult-currency.model';
 
 export abstract class IhistoryConsultCurrencyDriver {
@@ -20,7 +27,10 @@ export abstract class IhistoryConsultCurrencyDriver {
 
   abstract register(data: Partial<HistoryConsultCurrency>);
 
-  abstract getById(id: string): Promise<HistoryConsultCurrency>;
+  abstract aggregate(
+    pipeline: PipelineStage[],
+    options?: AggregateOptions,
+  ): Promise<any>;
 
   abstract getOne(
     filter: FilterQuery<HistoryConsultCurrency>,

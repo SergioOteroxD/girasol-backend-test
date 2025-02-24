@@ -12,6 +12,8 @@ import { IqueryConversionUC } from './use_case/query-conversion.uc';
 import { QueryConversionUC } from './use_case/impl/query-conversion.uc.impl';
 import { IeventConsultConversionUC } from './use_case/event-consult-conversion.uc';
 import { EventConsultConversionUC } from './use_case/impl/event-concult-conversion.uc.impl';
+import { IqueryHistoryCurrencyUC } from './use_case/query-history-conversion.uc';
+import { QueryHistoryCurrencyUC } from './use_case/impl/query-history-conversion.uc.impl';
 
 @Module({
   imports: [DriversModule],
@@ -23,6 +25,7 @@ import { EventConsultConversionUC } from './use_case/impl/event-concult-conversi
 
     // Conversion
     { provide: IqueryConversionUC, useClass: QueryConversionUC },
+    { provide: IqueryHistoryCurrencyUC, useClass: QueryHistoryCurrencyUC },
 
     //Jwt
     { provide: IjwtUC, useClass: JwtUC },
@@ -37,6 +40,7 @@ import { EventConsultConversionUC } from './use_case/impl/event-concult-conversi
     IloginUserUC,
     // Conversion
     IqueryConversionUC,
+    IqueryHistoryCurrencyUC,
     // Jwt
     IjwtUC,
     // Event
