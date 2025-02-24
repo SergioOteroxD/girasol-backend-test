@@ -6,14 +6,20 @@ import { IqueryUserUC } from './use_case/query-user.uc';
 import { QueryUserUC } from './use_case/impl/query-user.uc.impl';
 import { IloginUserUC } from './use_case/login-user.uc';
 import { LoginUserUC } from './use_case/impl/login-user.uc.impl';
+import { IjwtUC } from './use_case/jwt.uc';
+import { JwtUC } from './use_case/impl/jwt.uc.impl';
 
 @Module({
   imports: [DriversModule],
   providers: [
+    // User
     { provide: IregisterUserUC, useClass: RegisterUserUC },
     { provide: IqueryUserUC, useClass: QueryUserUC },
     { provide: IloginUserUC, useClass: LoginUserUC },
+
+    //Jwt
+    { provide: IjwtUC, useClass: JwtUC },
   ],
-  exports: [IregisterUserUC, IqueryUserUC, IloginUserUC],
+  exports: [IregisterUserUC, IqueryUserUC, IloginUserUC, IjwtUC],
 })
 export class CoreModule {}
