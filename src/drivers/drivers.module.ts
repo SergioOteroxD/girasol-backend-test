@@ -18,6 +18,8 @@ import { IhistoryConsultCurrencyDriver } from './history-consult-currency';
 import { HistoryConsultCurrencyDriver } from './impl/history-consult-currency.impl';
 import { IredisDriver } from './redis.driver';
 import { RedisDriver } from './impl/redis.driver.impl';
+import { IeventDriver } from './event.driver';
+import { EventDriver } from './impl/event.driver.impl';
 
 @Module({
   imports: [
@@ -70,6 +72,8 @@ import { RedisDriver } from './impl/redis.driver.impl';
       },
     },
     { provide: IredisDriver, useClass: RedisDriver },
+    // Event
+    { provide: IeventDriver, useClass: EventDriver },
     // User
     { provide: IuserDriver, useClass: UserDriver },
     // Jwt
@@ -84,6 +88,8 @@ import { RedisDriver } from './impl/redis.driver.impl';
   exports: [
     // redis
     IredisDriver,
+    // Event
+    IeventDriver,
     // User
     IuserDriver,
     // Jwt

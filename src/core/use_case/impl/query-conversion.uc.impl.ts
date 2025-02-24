@@ -8,16 +8,18 @@ import { IqueryConversionUC } from '../query-conversion.uc';
 import { IconversionData } from '../../entity/operation/conversion.entity';
 import { IconversionDriver } from '../../../drivers/conversion.driver';
 import { IuserContext } from '../../entity/user-context.entity';
-import { IhistoryConsultCurrencyDriver } from '../../../drivers/history-consult-currency';
 import { IredisDriver } from '../../../drivers/redis.driver';
 import { CustomException } from '../../../commons/response/common/entity/custom-exception.model';
+import { IeventDriver } from '../../../drivers/event.driver';
+import { EcurrencyEvent } from 'src/commons/enum/conversion-currency.event';
+import { IhistoryConsultCurrency } from '../../entity/history-consult-currency.entity';
 
 @Injectable()
 export class QueryConversionUC implements IqueryConversionUC {
   constructor(
     private conversionDriver: IconversionDriver,
-    private historyConsult: IhistoryConsultCurrencyDriver,
     private redisDriver: IredisDriver,
+    private eventDriver: IeventDriver,
   ) {}
 
   async getOne(
@@ -45,14 +47,11 @@ export class QueryConversionUC implements IqueryConversionUC {
         rate = conversionConsult.result[data.to];
       }
 
-      await this.historyConsult.register({
-        userId: user.userId,
-        amount: data.amount,
-        from: data.from,
-        to: data.to,
-        rate,
-      });
-
+      this.eventDriver.emit<IhistoryConsultCurrency>(
+        EcurrencyEvent.QUERY_CURRENCY,
+        user.userId,
+        { ...data, rate, userId: user.userId },
+      );
       return new ResponseBase(RESPONSE_CODE.QUERY_OK, {
         result: rate * data.amount,
       });

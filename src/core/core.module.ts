@@ -10,6 +10,8 @@ import { IjwtUC } from './use_case/jwt.uc';
 import { JwtUC } from './use_case/impl/jwt.uc.impl';
 import { IqueryConversionUC } from './use_case/query-conversion.uc';
 import { QueryConversionUC } from './use_case/impl/query-conversion.uc.impl';
+import { IeventConsultConversionUC } from './use_case/event-consult-conversion.uc';
+import { EventConsultConversionUC } from './use_case/impl/event-concult-conversion.uc.impl';
 
 @Module({
   imports: [DriversModule],
@@ -24,6 +26,9 @@ import { QueryConversionUC } from './use_case/impl/query-conversion.uc.impl';
 
     //Jwt
     { provide: IjwtUC, useClass: JwtUC },
+
+    // Event
+    { provide: IeventConsultConversionUC, useClass: EventConsultConversionUC },
   ],
   exports: [
     // User
@@ -34,6 +39,8 @@ import { QueryConversionUC } from './use_case/impl/query-conversion.uc.impl';
     IqueryConversionUC,
     // Jwt
     IjwtUC,
+    // Event
+    IeventConsultConversionUC,
   ],
 })
 export class CoreModule {}
