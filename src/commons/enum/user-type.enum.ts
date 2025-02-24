@@ -1,0 +1,4 @@
+export enum EuserType {
+  NATURAL_PERSON = 'NATURAL_PERSON',
+  JURIDIC_PERSON = 'JURIDIC_PERSON',
+}
