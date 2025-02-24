@@ -27,7 +27,7 @@ export const RESPONSE_CODE: Record<TreponseCode, IresponseCode> = {
   NOT_FOUND: {
     code: 'NOT_FOUND',
     message: 'No se encontró la información solicitada.',
-    status: 200,
+    status: 404,
   },
   ERROR: {
     code: 'ERROR',
