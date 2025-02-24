@@ -21,14 +21,6 @@ async function bootstrap() {
   //Configuración librería para generación de identificador de solicitud
   app.use(rTracer.expressMiddleware());
 
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: '1',
-  });
-
-  const module = configService.get('MODULE');
-  app.setGlobalPrefix(module);
-
   const config = new DocumentBuilder()
     .setTitle('Api conversion currency')
     .setDescription('The test for girasol')
@@ -36,6 +28,14 @@ async function bootstrap() {
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  });
+
+  const module = configService.get('MODULE');
+  app.setGlobalPrefix(module);
 
   const PORT = configService.get<number>('PORT');
 

@@ -12,17 +12,26 @@ import { RegisterUserDto } from '../dto/register-user.dto';
 import { IregisterUserUC } from '../../core/use_case/register-user.uc';
 import { IqueryUserUC } from '../../core/use_case/query-user.uc';
 import { EuserType } from '../../commons/enum/user-type.enum';
+import { IloginUserUC } from '../../core/use_case/login-user.uc';
+import { LoginUserDto } from '../dto/login-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(
     private registerUserUC: IregisterUserUC,
     private queryUsarUC: IqueryUserUC,
+    private loginUserUC: IloginUserUC,
   ) {}
 
   @Post('register')
   async registerUser(@Body() body: RegisterUserDto) {
     const result = await this.registerUserUC.create(body);
+    return new ResponseHttp(result.status, result);
+  }
+
+  @Post('login')
+  async login(@Body() body: LoginUserDto) {
+    const result = await this.loginUserUC.login(body);
     return new ResponseHttp(result.status, result);
   }
 
