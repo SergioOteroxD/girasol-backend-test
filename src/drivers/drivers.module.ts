@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
-import Redis from 'ioredis';
 import { UserDriver } from './impl/user.driver.impl';
 import { IuserDriver } from './user.driver';
 import { User, UserSchema } from './model/user.model';
@@ -20,6 +19,7 @@ import { IredisDriver } from './redis.driver';
 import { RedisDriver } from './impl/redis.driver.impl';
 import { IeventDriver } from './event.driver';
 import { EventDriver } from './impl/event.driver.impl';
+import Redis from 'ioredis';
 
 @Module({
   imports: [
@@ -53,12 +53,14 @@ import { EventDriver } from './impl/event.driver.impl';
   providers: [
     // redis
     {
+      inject: [ConfigService],
       provide: 'REDIS_CLIENT',
-      useFactory: async () => {
-        const redis = new Redis({
-          host: 'localhost',
-          port: 6379,
-        });
+      useFactory: async (configService: ConfigService) => {
+        const redis = new Redis(
+          configService.get<string>('database.redis.url'),
+          // host: configService.get<string>('database.redis.host'),
+          // port: configService.get<number>('database.redis.port'),
+        );
 
         redis.on('connect', () => {
           console.log('Connected to Redis');
@@ -67,7 +69,6 @@ import { EventDriver } from './impl/event.driver.impl';
         redis.on('error', (err) => {
           console.error('Redis connection error:', err);
         });
-
         return redis;
       },
     },
